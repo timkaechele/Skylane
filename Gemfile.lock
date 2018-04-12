@@ -9,9 +9,6 @@ GEM
     minitest (5.11.3)
     rake (10.5.0)
 
-PLATFORMS
-  x64-mingw32
-
 DEPENDENCIES
   bundler (~> 1.16)
   flung!
