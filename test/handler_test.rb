@@ -10,19 +10,29 @@ module Flung
       end
 
       def hello_world()
-        puts "Hello this is a test"
+        puts "Greetings, Earthling."
+      end
+
+      private 
+      def the_hidden_method
+        puts "I should be hidden."
       end
     end
 
     def test_exposed_methods
       handler = TestHandler.new
 
-      assert_equal handler.class.exposed_methods.count, 2
+      assert_equal 2, handler.class.exposed_methods.count
       assert handler.class.exposed_methods.include?(:sum)
       assert handler.class.exposed_methods.include?(:hello_world)
     end
 
 
+    def test_hidden_methods
+      handler = TestHandler.new
 
+      assert_equal 2, handler.class.exposed_methods.count
+      refute handler.class.exposed_methods.include?(:the_hidden_method)
+    end
   end
 end
