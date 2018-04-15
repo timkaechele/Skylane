@@ -1,4 +1,3 @@
-
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "flung/version"
@@ -27,6 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard", "~> 2.14"
   spec.add_development_dependency "guard-minitest", "~> 2.4"
   spec.add_development_dependency "simplecov", "~> 0.16"
+  spec.add_development_dependency "pry", "~> 0.11"
+  spec.add_development_dependency "rack-test", "~> 1.0"
 
   spec.add_dependency "method_source", "~> 0.9"
   spec.add_dependency "rack", "~> 2.0"
