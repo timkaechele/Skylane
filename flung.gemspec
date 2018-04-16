@@ -31,5 +31,4 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "method_source", "~> 0.9"
   spec.add_dependency "rack", "~> 2.0"
-
 end
