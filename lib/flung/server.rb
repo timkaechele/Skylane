@@ -41,6 +41,8 @@ module Flung
 
       responses = requests.map do |request|
         begin 
+          validate_json_rpc_schema(request)
+
           result = dispatch_request(request)
           {
             jsonrpc: Flung::JSON_RPC_VERSION,
@@ -83,23 +85,23 @@ module Flung
 
     def validate_json_rpc_schema(json_rpc_request)
       if !json_rpc_request.is_a?(Hash)
-        raise InvalidRequestError 
+        raise InvalidRequestError.new(id: json_rpc_request["id"]) 
       end
 
       if json_rpc_request["jsonrpc"] != JSON_RPC_VERSION
-        raise InvalidRequestError
+        raise InvalidRequestError.new(id: json_rpc_request["id"]) 
       end
 
       if !json_rpc_request.has_key?("method") || json_rpc_request["method"].empty?
-        raise InvalidRequestError
+        raise InvalidRequestError.new(id: json_rpc_request["id"]) 
       end
 
       if json_rpc_request.has_key?("params")
         params = json_rpc_request["params"]
 
         if !(params.is_a?(Array) || params.is_a?(Hash))
-          raise InvalidRequestError
-        end
+        raise InvalidRequestError.new(id: json_rpc_request["id"]) 
+          end
       end
     end
     
@@ -110,10 +112,6 @@ module Flung
 
         if !is_batched
           payload = [payload]
-        end
-
-        payload.each do |element|
-          validate_json_rpc_schema(element)
         end
 
         return is_batched, payload
