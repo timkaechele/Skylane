@@ -15,8 +15,8 @@ module Flung
       end
 
       def always_failing_method
-        raise ServerError.new(-32001, 
-                              "Authentication error", 
+        raise ServerError.new(-32001,
+                              "Authentication error",
                               data: { user_message: "No auth token provided" })
       end
     end
@@ -210,20 +210,19 @@ module Flung
     # end
 
 
-    # @TODO: Implement named parameters
-    # def test_with_valid_request_and_named_params
-    #   post_json({
-    #     jsonrpc: "2.0",
-    #     method: 'sum',
-    #     params: {x: 1, y: 2},
-    #     id: 1
-    #     })
-      
-    #   assert last_response.ok?
-    #   assert_equal "2.0", json["jsonrpc"]
-    #   assert_equal 3, json["result"]
-    #   assert_equal 1, json["id"]
-    # end
+    def test_with_valid_request_and_named_params
+      post_json({
+        jsonrpc: "2.0",
+        method: 'sum',
+        params: {x: 1, y: 2},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal 3, json["result"]
+      assert_equal 1, json["id"]
+    end
 
     def post_json(json_hash)
       json = JSON.generate(json_hash)
