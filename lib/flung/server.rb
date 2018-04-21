@@ -129,10 +129,15 @@ module Flung
       normal_params = Array.new
       method_parameters.each do |method_param|
         parameter_value = named_params_hash[method_param[1].to_s]
+        includes_value = named_params_hash.include?(method_param[1].to_s)
         if method_param[0] == :req || method_param[0] == :opt
-          normal_params.push(parameter_value)
+          if includes_value
+            normal_params.push(parameter_value)
+          end
         elsif method_param[0] == :key || method_param[0] == :keyreq
-          key_params[method_param[1]] = parameter_value
+          if includes_value
+            key_params[method_param[1]] = parameter_value
+          end
         end
       end
       normal_params.push(key_params) if !key_params.empty?

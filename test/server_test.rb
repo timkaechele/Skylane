@@ -14,6 +14,14 @@ module Flung
         { x: x, y: y }
       end
 
+      def key_args_optional(a, b: "Hello World")
+        [a, b]
+      end
+
+      def default_args(a, b="Hello World")
+        [a, b]
+      end
+
       def hello_world
         "Hello World"
       end
@@ -253,6 +261,62 @@ module Flung
       assert last_response.ok?
       assert_equal "2.0", json["jsonrpc"]
       assert_equal({ "x" => 2, "y" => 1 }, json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_optional_keyword
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args_optional',
+        params: { a: "This is A", b: "I am optional" },
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "I am optional"], json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_optional_keyword_left_out
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args_optional',
+        params: { a: "This is A"},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "Hello World"], json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_default_args
+      post_json({
+        jsonrpc: "2.0",
+        method: 'default_args',
+        params: { a: "This is A", b: "What is this?"},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "What is this?"], json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_default_args_left_out
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args_optional',
+        params: { a: "This is A"},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "Hello World"], json["result"])
       assert_equal 1, json["id"]
     end
 
