@@ -61,7 +61,6 @@ module Flung
       end
     end
 
-
     def dispatch_request(request_hash)
       instance_method = router.method_for(request_hash["method"])
       if instance_method.nil?
@@ -125,9 +124,19 @@ module Flung
     end
 
     def map_named_params(method_parameters, named_params_hash)
-      method_parameters.map do |method_param|
-        named_params_hash[method_param[1].to_s]
+
+      key_params = Hash.new
+      normal_params = Array.new
+      method_parameters.each do |method_param|
+        parameter_value = named_params_hash[method_param[1].to_s]
+        if method_param[0] == :req || method_param[0] == :opt
+          normal_params.push(parameter_value)
+        elsif method_param[0] == :key || method_param[0] == :keyreq
+          key_params[method_param[1]] = parameter_value
+        end
       end
+      normal_params.push(key_params) if !key_params.empty?
+      normal_params
     end
   end
 end

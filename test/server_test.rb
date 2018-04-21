@@ -10,6 +10,10 @@ module Flung
         x + y
       end
 
+      def key_args(x:, y:)
+        { x: x, y: y }
+      end
+
       def hello_world
         "Hello World"
       end
@@ -221,6 +225,34 @@ module Flung
       assert last_response.ok?
       assert_equal "2.0", json["jsonrpc"]
       assert_equal 3, json["result"]
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_key_args
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args',
+        params: { x: 1, y: 2 },
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal({ "x" =>  1, "y" => 2 }, json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_key_args_inverted
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args',
+        params: { y: 1, x: 2 },
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal({ "x" => 2, "y" => 1 }, json["result"])
       assert_equal 1, json["id"]
     end
 
