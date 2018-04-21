@@ -10,13 +10,25 @@ module Flung
         x + y
       end
 
+      def key_args(x:, y:)
+        { x: x, y: y }
+      end
+
+      def key_args_optional(a, b: "Hello World")
+        [a, b]
+      end
+
+      def default_args(a, b="Hello World")
+        [a, b]
+      end
+
       def hello_world
         "Hello World"
       end
 
       def always_failing_method
-        raise ServerError.new(-32001, 
-                              "Authentication error", 
+        raise ServerError.new(-32001,
+                              "Authentication error",
                               data: { user_message: "No auth token provided" })
       end
     end
@@ -210,20 +222,103 @@ module Flung
     # end
 
 
-    # @TODO: Implement named parameters
-    # def test_with_valid_request_and_named_params
-    #   post_json({
-    #     jsonrpc: "2.0",
-    #     method: 'sum',
-    #     params: {x: 1, y: 2},
-    #     id: 1
-    #     })
-      
-    #   assert last_response.ok?
-    #   assert_equal "2.0", json["jsonrpc"]
-    #   assert_equal 3, json["result"]
-    #   assert_equal 1, json["id"]
-    # end
+    def test_with_valid_request_and_named_params
+      post_json({
+        jsonrpc: "2.0",
+        method: 'sum',
+        params: {x: 1, y: 2},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal 3, json["result"]
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_key_args
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args',
+        params: { x: 1, y: 2 },
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal({ "x" =>  1, "y" => 2 }, json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_key_args_inverted
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args',
+        params: { y: 1, x: 2 },
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal({ "x" => 2, "y" => 1 }, json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_optional_keyword
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args_optional',
+        params: { a: "This is A", b: "I am optional" },
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "I am optional"], json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_optional_keyword_left_out
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args_optional',
+        params: { a: "This is A"},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "Hello World"], json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_default_args
+      post_json({
+        jsonrpc: "2.0",
+        method: 'default_args',
+        params: { a: "This is A", b: "What is this?"},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "What is this?"], json["result"])
+      assert_equal 1, json["id"]
+    end
+
+    def test_with_valid_request_named_params_and_default_args_left_out
+      post_json({
+        jsonrpc: "2.0",
+        method: 'key_args_optional',
+        params: { a: "This is A"},
+        id: 1
+        })
+
+      assert last_response.ok?
+      assert_equal "2.0", json["jsonrpc"]
+      assert_equal(["This is A", "Hello World"], json["result"])
+      assert_equal 1, json["id"]
+    end
 
     def post_json(json_hash)
       json = JSON.generate(json_hash)
