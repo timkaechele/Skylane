@@ -1,4 +1,4 @@
-module Flung
+module Skylane
 
   # Error raised if the server error code
   # is not in the range of -32099..-32000
@@ -18,7 +18,7 @@ module Flung
 
     def to_h 
       hash_representation = {
-        jsonrpc: Flung::JSON_RPC_VERSION, 
+        jsonrpc: Skylane::JSON_RPC_VERSION, 
         error: {
           code: self.code, 
           message: self.message,

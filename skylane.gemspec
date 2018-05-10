@@ -1,16 +1,16 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "flung/version"
+require "skylane/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "flung"
-  spec.version       = Flung::VERSION
+  spec.name          = "skylane"
+  spec.version       = Skylane::VERSION
   spec.authors       = ["Tim Kächele"]
   spec.email         = ["mail@timkaechele.me"]
 
   spec.summary       = "A json rpc server for ruby"
   spec.description   = "A json-rpc server that uses rack and ruby metaprogramming magic."
-  spec.homepage      = "https://github.com/timkaechele/flung"
+  spec.homepage      = "https://github.com/timkaechele/skylane"
 
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

@@ -1,9 +1,9 @@
 require "test_helper"
-module Flung
+module Skylane
   class HandlerTest < Minitest::Test
 
     class TestHandler
-      extend Flung::Handler
+      extend Skylane::Handler
 
       def sum(x, y)
         puts x, y

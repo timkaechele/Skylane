@@ -1,7 +1,7 @@
 require "test_helper"
 
-class FlungTest < Minitest::Test
+class SkylaneTest < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::Flung::VERSION
+    refute_nil ::Skylane::VERSION
   end
 end

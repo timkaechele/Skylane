@@ -1,11 +1,11 @@
 require "test_helper"
 require 'json'
-module Flung
+module Skylane
   class ServerTest < Minitest::Test
     include Rack::Test::Methods
 
     class TestHandler
-      extend Flung::Handler
+      extend Skylane::Handler
       def sum(x, y)
         x + y
       end

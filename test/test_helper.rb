@@ -6,7 +6,7 @@ SimpleCov.start do
   add_filter "/test/"
 end
 
-require "flung"
+require "skylane"
 require "pry"
 
 

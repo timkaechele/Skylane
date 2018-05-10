@@ -1,4 +1,4 @@
-module Flung
+module Skylane
 
   # Allows to map functions to handlers
   class Router
