@@ -124,7 +124,6 @@ module Skylane
     end
 
     def map_named_params(method_parameters, named_params_hash)
-
       key_params = Hash.new
       normal_params = Array.new
       method_parameters.each do |method_param|

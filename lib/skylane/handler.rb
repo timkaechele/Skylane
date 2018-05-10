@@ -10,5 +10,22 @@ module Skylane
       Set.new(found_methods)
     end
 
+    # Accepts the parameter_name, an action that should be called 
+    # @param parameters - a single parameter as a symbol or an array of parameters
+    # @param action - a callable (`.call`) action that accepts a hash with the 
+    #   specified parameters
+    # @param only - a single symbol or an array of symbols that represent the methods
+    #   that should be handled by this before_action
+    def before_action(parameters, action, only: nil)
+    end
+
+    # Accepts a parameters hash and returns a parameters hash
+    def apply_before_actions(method_name, parameters)
+    end
+
+    # Finds before_actions that have to be applied before dispatching 
+    # the request 
+    def applicable_before_actions(method_name)
+    end
   end
 end

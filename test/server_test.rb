@@ -6,6 +6,10 @@ module Skylane
 
     class TestHandler
       extend Skylane::Handler
+      
+      # Possible before_action syntax
+      # before_action :x, -> (arg) { puts arg }, only: [:sum]
+
       def sum(x, y)
         x + y
       end
