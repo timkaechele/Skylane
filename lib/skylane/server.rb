@@ -1,6 +1,6 @@
 require 'json'
 
-module Flung
+module Skylane
   class Server
     attr_reader :router
 
@@ -43,7 +43,7 @@ module Flung
 
           result = dispatch_request(request)
           {
-            jsonrpc: Flung::JSON_RPC_VERSION,
+            jsonrpc: Skylane::JSON_RPC_VERSION,
             result: result,
             id: request["id"]
           }

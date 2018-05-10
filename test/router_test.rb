@@ -1,8 +1,8 @@
 require "test_helper"
-module Flung
+module Skylane
   class RouterTest < Minitest::Test
     class TestHandler
-      extend Flung::Handler
+      extend Skylane::Handler
       def sum(x, y)
         x + y
       end

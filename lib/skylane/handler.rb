@@ -1,5 +1,5 @@
  require 'set'
-module Flung
+module Skylane
   module Handler
 
     def exposed_methods
